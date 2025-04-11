@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block titulo %}Lista de {{sujeto|capitalize}}{% endblock %}
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Listado de {{sujeto|capitalize}}</h1>
+<hr />
+
+<table id="tablaDatos" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in datos %}
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.nombre}}</td>
+            <td>
+                <a class="btn btn-info" href="/{{sujeto}}/{{item.id}}">Ver detalle</a>
+                <a class="btn btn-warning" href="/{{sujeto}}/{{item.id}}/editar">Editar</a>
+                <a class="btn btn-danger btnEliminar" href="#" data-identificador="{{item.id}}" data-nombre="{{item.nombre}}">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+
+<a href="/{{sujeto}}/crear" class="btn btn-primary mt-2">Crear Registro</a>
+<button class="btn btn-primary mt-2" id="btnCrear">Crear Registro Ajax</button>
+
+
+{% include "paises/_modal_formulario.html" %}
+
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+    const tablaDatos = new DataTable('#tablaDatos', opcionesDatatable);
+
+    $("#btnCrear").click(function(){
+        $("#modalPaisFormulario").modal("show");
+    });
+
+    $("#btnConfirmarCrear").click(function(){
+
+        const dataForm = {
+            nombre: $("#txtNombre").val()
+        }
+
+        if (!dataForm.nombre){
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "El campo nombre es más que requerido!",
+            });
+            return false;
+        }
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataForm)
+        };
+
+        fetch(`http://127.0.0.1:50100/api/paises`, requestOptions)
+            .then( response => response.json() )
+            .then( data => {
+                $("#modalPaisFormulario").modal("hide");
+
+                const nuevaFila = tablaDatos.row.add([
+                    data.id,                   // ID del registro creado
+                    dataForm.nombre,     // Nombre ingresado
+                    `<a class="btn btn-info" href="/{{sujeto}}/${data.id}">Ver detalle</a>
+                     <a class="btn btn-warning" href="/{{sujeto}}/${data.id}/editar">Editar</a>
+                     <a class="btn btn-danger btnEliminar" href="#" data-identificador="${data.id}" data-nombre="${dataForm.nombre}">Eliminar</a>`
+                ]).draw(true);
+
+            })
+    });
+
+
+    $(document).on("click", ".btnEliminar", function(){
+
+        const $fila = $(this).closest('tr');
+        const identificador = $(this).data("identificador");
+        const nombre = $(this).data("nombre");
+
+        Swal.fire({
+            title: `¿Seguro que quieres eliminar ${nombre}?`,
+            text: "No podrás revertir esta opción",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Si, ELIMINAR!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://127.0.0.1:50100/api/paises/${identificador}/eliminar`)
+                    .then( response => response.json() )
+                    .then( data => {
+                        if(data.ok){
+                            $fila.remove();
+                        }else{
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Error: " + data.mensaje,
+                            });
+                        }
+                    })
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle del usuario {{usuario.nombre}}{% endblock %}
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Detalle del usuario  {{usuario.nombre}}</h1>
+<hr />
+
+<ul>
+    <li>ID: {{usuario.id}}</li>
+    <li>Nombre: {{usuario.nombre}}</li>
+    <li>Email: {{usuario.email}}</li>
+    <li>Creado: {{usuario.created_at.strftime('%d/%m/%Y %H:%M:%S')}}</li>
+    <li>Actualizado: {{usuario.updated_at}}</li>
+</ul>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+</script>
+
+{% endblock %}

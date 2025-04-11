@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block titulo %}Detalle del {{sujeto|capitalize}} {{objeto.nombre}}{% endblock %}
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Detalle del {{sujeto|capitalize}}  {{objeto.nombre}}</h1>
+<hr />
+
+<ul>
+    <li>ID: {{objeto.id}}</li>
+    <li>Nombre: {{objeto.nombre}}</li>
+    <li>Creado: {{objeto.created_at.strftime('%d/%m/%Y %H:%M:%S')}}</li>
+    <li>Actualizado: {{objeto.updated_at}}</li>
+</ul>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+</script>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block titulo %}Login y Registro{% endblock %}
+
+{% block contenido %}
+
+<div class="row mt-2">
+    <div class="col">
+        <h3>Registrar Usuario</h3>
+        <hr />
+
+        <form action="/registrar_usuario" method="POST">
+            <label class="mt-2">Nombre</label>    
+            <input type="text" name="nombre" class="form-control" required />
+
+            <label class="mt-2">E-mail:</label>    
+            <input type="email" name="email" class="form-control" required />
+
+            <label class="mt-2">Contraseña:</label>
+            <input type="password" name="password" class="form-control" required/>
+
+            <label class="mt-2">Confirmar Contraseña:</label>
+            <input type="password" name="password_confirm" class="form-control" required/>
+
+            <input
+                type="submit"
+                value="Registrar"
+                class="btn btn-info mt-3"
+            />
+        </form>
+
+    </div>
+    <div class="col">
+        <h3>Entrar al Sistema</h3>
+        <hr />
+
+        <form action="/login_usuario" method="POST">
+            
+            <label class="mt-2">E-mail:</label>    
+            <input type="email" name="email" class="form-control" required />
+
+            <label class="mt-2">Contraseña:</label>
+            <input type="password" name="password" class="form-control" required/>
+
+            <input
+                type="submit"
+                value="Entrar al sistema"
+                class="btn btn-primary mt-3"
+            />
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+</script>
+
+{% endblock %}

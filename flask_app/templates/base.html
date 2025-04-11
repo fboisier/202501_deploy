@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{% block titulo %}BASE{% endblock %}</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/estilos.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/toastr.min.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/datatables.min.css') }}"
+        />
+
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/sweetalert2.min.css') }}"
+        />
+
+        {% block mis_estilos %} {% endblock %}
+    </head>
+    <body>
+
+        {% if 'usuario' in session %}
+            {% include "_menu.html" %}
+        {% endif %}
+        <div class="container">
+            {% block contenido %}
+            <h1 class="mt-2 p-2 text-center">Template Base</h1>
+            {% endblock %}
+        </div>
+
+        <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/toastr.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/datatables.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/sweetalert2.all.min.js') }}"></script>
+
+        <script>
+            const opcionesDatatable = {
+                stateSave: true,
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-CL.json'
+                },
+            }
+
+            toastr.options = {
+                closeButton: true,
+                newestOnTop: true,
+                progressBar: true,
+                positionClass: "toast-top-right",
+            };
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                    {% for category, message in messages %}
+                    toastr.{{category}}("{{message}}", "Sistema Mensajes Flash")
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+        </script>
+        {% block mis_scripts %} {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block titulo %}Ingresar Producto al Cliente{% endblock %}
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Ingresar Producto al Cliente</h1>
+<hr />
+
+<ul class="list-group">
+    <li class="list-group-item"><strong>Identificadores:</strong> {{objeto.id}} - {{objeto.dni}}</li>
+    <li class="list-group-item"><strong>Nombre Completo:</strong> {{objeto.nombre}} {{objeto.apellido}}</li>    
+</ul>
+
+<form action="/clientes/{{objeto.id}}/productos/crear" method="POST">
+    
+    <label class="mt-2">Producto</label>    
+    <select name="producto_id" class="form-select" required>
+        <option value="">Seleccione un producto</option>
+        {% for producto in productos %}
+        <option value="{{producto.id}}">{{producto.nombre}}</option>
+        {% endfor %}
+    </select>
+
+    <input
+        type="submit"
+        value="Crear"
+        class="btn btn-primary mt-3"
+    />
+</form>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+</script>
+
+{% endblock %}

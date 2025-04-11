@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block titulo %}Lista de {{sujeto|capitalize}}{% endblock %}
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Listado de {{sujeto|capitalize}}</h1>
+<hr />
+
+<table id="tablaDatos" class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>País</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in datos %}
+        <tr>
+            <td>{{item.id}}</td>
+            <td>{{item.nombre}}</td>
+            <td>{{item.pais.nombre}}</td>
+            <td>
+                <a class="btn btn-info" href="/{{sujeto}}/{{item.id}}">Ver detalle</a>
+                <a class="btn btn-warning" href="/{{sujeto}}/{{item.id}}/editar">Editar</a>
+                <a class="btn btn-danger btnEliminar" href="#" data-identificador="{{item.id}}" data-nombre="{{item.nombre}}">Eliminar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+</table>
+
+<a href="/{{sujeto}}/crear" class="btn btn-primary mt-2">Crear Registro</a>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+    const tablaDatos = new DataTable('#tablaDatos', opcionesDatatable);
+    $(".btnEliminar").click(function(){
+
+        const identificador = $(this).data("identificador");
+        const nombre = $(this).data("nombre");
+
+        Swal.fire({
+            title: `¿Seguro que quieres eliminar ${nombre}?`,
+            text: "No podrás revertir esta opción",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Si, ELIMINAR!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href=`/{{sujeto}}/${identificador}/eliminar`;
+            }
+        });
+    });
+</script>
+
+{% endblock %}

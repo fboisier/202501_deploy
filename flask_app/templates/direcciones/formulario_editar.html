@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block titulo %}Actualizar {{objeto.calle}} {{objeto.numero}}{% endblock %}
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Actualizar {{objeto.calle}} {{objeto.numero}}</h1>
+<hr />
+
+<form action="/direcciones/{{objeto.id}}/editar" method="POST">
+    
+    <label class="mt-2">Calle</label>    
+    <input type="text" name="calle" value="{{objeto.calle}}" class="form-control" required />
+
+    <label class="mt-2">Número</label>    
+    <input type="text" name="numero" value="{{objeto.numero}}" class="form-control" required />
+
+    <label class="mt-2">Comuna</label>    
+    <select name="comuna_id" class="form-select" required>
+        <option value="">Seleccione una comuna</option>
+        {% for comuna in comunas %}
+            <option value="{{comuna.id}}" 
+                {% if comuna.id == objeto.comuna_id %}
+                    selected 
+                {% endif %}
+            >{{comuna.nombre}}</option>
+        {% endfor %}
+    </select>
+
+    <input
+        type="submit"
+        value="Actualizar"
+        class="btn btn-primary mt-3"
+    />
+</form>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+</script>
+
+{% endblock %}

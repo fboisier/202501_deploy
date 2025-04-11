@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block titulo %}Ingresar {{sujeto|capitalize}}{% endblock %}
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Ingresar {{sujeto|capitalize}}</h1>
+<hr />
+
+<form action="/comunas" method="POST">
+    
+    <label class="mt-2">Nombre</label>    
+    <input type="text" name="nombre" class="form-control" required />
+
+    <label class="mt-2">País</label>    
+    <select name="pais_id" class="form-select" required>
+        <option value="">Seleccione un país</option>
+        {% for pais in paises %}
+        <option value="{{pais.id}}">{{pais.nombre}}</option>
+        {% endfor %}
+    </select>
+
+    <input
+        type="submit"
+        value="Crear"
+        class="btn btn-primary mt-3"
+    />
+</form>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+</script>
+
+{% endblock %}

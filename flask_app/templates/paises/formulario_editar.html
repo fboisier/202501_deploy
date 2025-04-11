@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block titulo %}Actualizar {{objeto.nombre|capitalize}}{% endblock %}
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Actualizar {{objeto.nombre|capitalize}}</h1>
+<hr />
+
+<form action="/paises/{{objeto.id}}/editar" method="POST">
+    
+    <label class="mt-2">Nombre</label>    
+    <input type="text" name="nombre" value="{{objeto.nombre}}" class="form-control" required />
+
+    <input
+        type="submit"
+        value="Actualizar"
+        class="btn btn-primary mt-3"
+    />
+</form>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+</script>
+
+{% endblock %}

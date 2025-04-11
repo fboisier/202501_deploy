@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block titulo %}Actualizar {{objeto.nombre|capitalize}}{% endblock %}
+
+
+{% block mis_estilos %}
+<style>
+    .rojo {
+        background-color: red;
+    }
+</style>
+{% endblock %}
+
+
+{% block contenido %}
+<h1 class="mt-2 p-2 text-center">Actualizar {{objeto.nombre|capitalize}}</h1>
+<hr />
+
+<form action="/comunas/{{objeto.id}}/editar" method="POST">
+    
+    <label class="mt-2">Nombre</label>    
+    <input type="text" name="nombre" value="{{objeto.nombre}}" class="form-control" required />
+
+    <label class="mt-2">País</label>    
+    <select name="pais_id" class="form-select" required>
+        <option value="">Seleccione un país</option>
+        {% for pais in paises %}
+            <option value="{{pais.id}}" 
+                {% if pais.id == objeto.pais_id %}
+                    selected 
+                {% endif %}
+            >{{pais.nombre}}</option>
+        {% endfor %}
+    </select>
+
+    <input
+        type="submit"
+        value="Actualizar"
+        class="btn btn-primary mt-3"
+    />
+</form>
+
+{% endblock %}
+
+{% block mis_scripts %} 
+
+<script>
+</script>
+
+{% endblock %}
