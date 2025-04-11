@@ -3,6 +3,7 @@ from flask_app.model.paises import Pais
 from flask import render_template, request, flash, redirect
 from flask_app.utils.decoradores import login_required
 from flask import jsonify
+import os
 
 @app.route("/paises")
 @login_required
@@ -11,7 +12,10 @@ def listar_paises():
     datos = Pais.get_all()
     sujeto = "paises"
 
-    return render_template("paises/listado.html", datos=datos, sujeto=sujeto)
+    api_url = os.getenv("API_URL")
+    print("URL", api_url)
+
+    return render_template("paises/listado.html", datos=datos, sujeto=sujeto, api_url=api_url)
 
 
 @app.route("/paises/<id>")

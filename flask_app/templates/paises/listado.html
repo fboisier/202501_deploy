@@ -70,7 +70,7 @@
             body: JSON.stringify(dataForm)
         };
 
-        fetch(`http://127.0.0.1:50100/api/paises`, requestOptions)
+        fetch(`{{api_url}}/api/paises`, requestOptions)
             .then( response => response.json() )
             .then( data => {
                 $("#modalPaisFormulario").modal("hide");
@@ -103,7 +103,7 @@
             confirmButtonText: "Si, ELIMINAR!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://127.0.0.1:50100/api/paises/${identificador}/eliminar`)
+                fetch(`{{api_url}}/api/paises/${identificador}/eliminar`)
                     .then( response => response.json() )
                     .then( data => {
                         if(data.ok){
